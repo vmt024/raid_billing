@@ -1,0 +1,71 @@
+  <div class="page-header span8">
+    <h2>Account Overview</h2>
+  </div>
+  <%= render :partial => 'phone_billing_period' %>
+  <div class="page-header">
+    <h2>Phone Usage for <%= session[:full_phone_number]%></h2>
+  </div>
+  <div class="row">
+    <div class="span3">
+      <table class="table table-bordered">
+        <tbody>
+        <tr>
+          <th>Total Duration:</th>
+          <td><% duration = PhoneUsage.total_duration(session[:phone_number],session[:billing_period])%>
+            <%= seconds_to_hours(duration)%></td>
+        </tr>
+        <tr>
+          <th>Auckland:</th>
+          <td><%= seconds_to_hours(PhoneUsage.total_duration(session[:phone_number],session[:billing_period],1))%></td>
+        </tr>
+        <tr>
+          <th>National:</th>
+          <td><%= seconds_to_hours(PhoneUsage.total_duration(session[:phone_number],session[:billing_period],2))%></td>
+        </tr>
+        <tr>
+          <th>Mobile:</th>
+          <td><%= seconds_to_hours(PhoneUsage.total_duration(session[:phone_number],session[:billing_period],3))%></td>
+        </tr>
+        <tr>
+          <th>China:</th>
+          <td><%= seconds_to_hours(PhoneUsage.total_duration(session[:phone_number],session[:billing_period],4))%></td>
+        </tr>
+        <tr>
+          <th>Tollfree:</th>
+          <td><%= seconds_to_hours(PhoneUsage.total_duration(session[:phone_number],session[:billing_period],5))%></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="span5">
+      <%= high_chart("my_id", @h) do |c|  %>
+        <%= "options.tooltip.formatter = function() { return this.point.name +': '+ this.y +' %';}" %>
+      <% end %>
+    </div>
+  </div>
+  <div class="page-header span8">
+    <h2>Internet Usage</h2>
+  </div>
+
+  <div class="row">
+    <div class="span3">
+      <table class="table table-bordered">
+        <tbody>
+          <tr>
+            <th>Traffic Used:</th>
+            <td><%= number_to_human_size(InternetUsage.total_usage(current_user.id,session[:billing_period])) %></td>
+          </tr>
+          <tr>
+            <th>Traffic Limit:</th>
+            <td><%= number_to_human_size(current_user.service.included_internet_usage) %> </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="span5">
+      <%= high_chart("my_id_id", @b) do |c|%>
+        <%= "options.tooltip.formatter = function() { return this.point.name + ': '+ this.y +' %';}" %>
+        <%= "options.yAxis.labels.formatter = function() { return this.value+'%';}" %>
+      <% end %>
+    </div>
+  </div>

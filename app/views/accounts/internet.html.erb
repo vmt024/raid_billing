@@ -1,0 +1,29 @@
+  <div class="page-header span8">
+    <h2>Internet Usage</h2>
+  </div>
+  <%= render :partial => 'phone_billing_period' %>
+  <div class="page-header span8">
+    <h2>Internet Usage</h2>
+  </div>
+  <div class="row">
+    <div class="span8">
+      <table class="table table-bordered">
+        <tbody>
+          <tr>
+            <th>Date</th>
+            <th>Data Downloaded</th>
+            <th>Data Uploaded</th>
+            <th>Total</th>
+          <tr>
+          <% @transactions.each do |tran|%>
+          <tr>
+            <td><%= tran.date.strftime("%d %b %Y")%></td>
+            <td><%= number_to_human_size(tran.data_downloaded) %></td>
+            <td><%= number_to_human_size(tran.data_uploaded) %></td>
+            <td><%= number_to_human_size(tran.data_uploaded + tran.data_downloaded) %></td>
+          </tr>
+          <% end %>
+      </tbody>
+    </table>
+    </div>
+  </div>

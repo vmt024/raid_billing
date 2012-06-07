@@ -1,0 +1,32 @@
+  <div class="page-header span8">
+    <h2>Phone Usage</h2>
+  </div>
+  <%= render :partial => 'phone_billing_period' %>
+  <div class="page-header span8">
+    <h2>Phone Usage</h2>
+  </div>
+  <div class="row">
+    <div class="span8">
+      <table class="table table-bordered">
+        <tbody>
+          <tr>
+            <th>Date and time</th>
+            <th>Number</th>
+            <th>Type (Place)</th>
+            <th>Duration</th>
+            <th class="right-aligned">Cost (excl GST)</th>
+          <tr>
+          <% @transactions.each do |tran|%>
+          <tr>
+            <td><%= tran.date_and_time.strftime("%d %b %Y %I:%M %p") %></td>
+            <td><%= tran.calling_to %></td>
+            <td><%= category_to_location(tran.category_id) %></td>
+            <td><%= seconds_to_hours(tran.duration) %></td>
+            <td class="right-aligned"><%= number_to_currency(tran.cost) %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <%= paginate @transactions %>
+    </div>
+  </div>
