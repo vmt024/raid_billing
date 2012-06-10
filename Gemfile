@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.2'
+gem 'rails', '3.2.5'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -9,6 +9,7 @@ gem 'mysql2'
 
 gem 'json'
 
+gem 'devise'
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
@@ -22,6 +23,16 @@ group :assets do
 end
 
 gem 'jquery-rails'
+gem "twitter-bootstrap-rails"
+gem 'kaminari'
+gem 'wicked_pdf'
+gem 'lazy_high_charts'
+
+group :development do
+   gem 'factory_girl_rails', '1.7.0'
+   gem 'rspec', '~> 2.10.0'
+   gem 'rspec-rails', '~> 2.0'
+end
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'

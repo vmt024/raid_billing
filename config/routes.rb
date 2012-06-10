@@ -4,6 +4,28 @@ RaidBilling::Application.routes.draw do
   devise_for :users, :controllers => {:sessions => 'users/sessions'}
   devise_scope :user do
       get "sign_in", :to => "users/sessions#new"
+      delete "sign_out", :to => "users/sessions#destroy"
+  end
+
+  resources :accounts, :only =>[:overview, :phone, :internet] do
+    collection do
+    get :overview
+    post :set_billing_period
+    post :set_phone_number
+    get :phone
+    get :internet
+    end
+  end
+
+  resources :admin, :only=>[:accounts,:edit_account, :sign_in_as_account] do
+    member do
+      get :edit_account
+      post:update_account
+      get :sign_in_as_account
+    end
+    collection do
+      get :accounts
+    end
   end
 
   # The priority is based upon order of creation:
@@ -56,7 +78,7 @@ RaidBilling::Application.routes.draw do
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
   # root :to => 'welcome#index'
-   root :to => 'home#index'
+   root :to => 'accounts#overview'
   # See how all your routes lay out with "rake routes"
 
   # This is a legacy wild controller route that's not recommended for RESTful applications.

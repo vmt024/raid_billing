@@ -11,3 +11,14 @@
  *= require_self
  *= require_tree .
 */
+footer{
+  text-align: center;
+  color: #CCC;
+}
+
+.signin-btn{
+  text-align: center;
+}
+.pink-well{
+  background-color: pink !important;
+}

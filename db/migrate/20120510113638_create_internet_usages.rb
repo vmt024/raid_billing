@@ -3,11 +3,9 @@ class CreateInternetUsages < ActiveRecord::Migration
     create_table :internet_usages do |t|
       t.integer :user_id,    :null => false
       t.date    :date,       :null => false
-      t.integer :data_uploaded,     :null => false
-      t.integer :data_downloaded,   :null => false
-      t.decimal :cost,              :null => false
-      t.boolean :billed,            :null => false
-
+      t.integer :data_uploaded,     :null => false, :default => 0
+      t.integer :data_downloaded,   :null => false, :default => 0
+      t.boolean :billed,            :null => false, :default => false
       t.timestamps
     end
   end

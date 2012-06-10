@@ -23,6 +23,7 @@
     <link href="images/apple-touch-icon.png" rel="apple-touch-icon">
     <link href="images/apple-touch-icon-72x72.png" rel="apple-touch-icon" sizes="72x72">
     <link href="images/apple-touch-icon-114x114.png" rel="apple-touch-icon" sizes="114x114">
+    <%= javascript_include_tag "application" %>
   </head>
   <body>
 
@@ -34,14 +35,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-          <a class="brand" href="#">RaidBilling</a>
-          <div class="container nav-collapse">
-            <ul class="nav">
-                <li><%= link_to "Link1", "/path1"  %></li>
-                <li><%= link_to "Link2", "/path2"  %></li>
-                <li><%= link_to "Link3", "/path3"  %></li>
-            </ul>
-          </div><!--/.nav-collapse -->
+          <a class="brand" href="#">Raid Billing</a>
         </div>
       </div>
     </div>
@@ -50,28 +44,40 @@
       <div class="content">
         <div class="row">
           <div class="span9">
-            <p class="notice"><%= notice %></p>
-            <p class="alert"><%= alert %></p>
+            <% if alert %>
+              <p class="alert"><%= alert %></p>
+            <% end %>
             <%= yield %>
           </div>
           <div class="span1">&nbsp;</div>
-            <div class="span3">
+          <div class="span3">
+            <% if current_user %>
               <div class="well sidebar-nav">
-                <h3>Sidebar</h3>
+                <h3>My Account</h3>
                 <ul class="nav nav-list">
-                  <li class="nav-header">Sidebar</li>
-                    <li><%= link_to "Link1", "/path1"  %></li>
-                    <li><%= link_to "Link2", "/path2"  %></li>
-                    <li><%= link_to "Link3", "/path3"  %></li>
+                    <li><%= link_to "Account Overview", overview_accounts_url %></li>
+                    <li><%= link_to "Check Phone Usage", phone_accounts_url %></li>
+                    <li><%= link_to "Check Internet Usage", internet_accounts_url %></li>
+                    <li><%= link_to "Sign Out", destroy_user_session_url, :method=>'DELETE' %></li>
                 </ul>
               </div>
+            <% end %>
+            <% if true %>
+              <div class="well sidebar-nav pink-well">
+                <div class="alert alert-error"><strong>Only administrator can see this section</strong></div>
+                <ul class="nav nav-list">
+                    <li><%= link_to "Accounts List", accounts_admin_index_url %></li>
+                    <li><%= link_to "Edit Billing Details", phone_accounts_url %></li>
+                </ul>
+              </div>
+            <% end %>
             </div>
           </div>
         </div><!--/row-->
       </div><!--/content-->
 
       <footer>
-        <p>&copy; Company 2012</p>
+        <p>&copy; Raid Ltd 2012</p>
       </footer>
 
     </div> <!-- /container -->
@@ -79,7 +85,5 @@
     <!-- Le javascript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <%= javascript_include_tag "application" %>
-
   </body>
 </html>
