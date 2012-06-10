@@ -1,0 +1,38 @@
+<div class="page-header">
+  <h2>Accounts List</h2>
+</div>
+
+<div class="row">
+  <div class="span9">
+    <table class="table table-bordered">
+      <tbody>
+        <tr>
+          <th>Account</th>
+          <th>Plan</th>
+          <th>Phone Number</th>
+          <th>Fee</th>
+          <th>&nbsp;</th>
+        <tr>
+        <% @accounts.each do |account|%>
+        <tr>
+          <td><%= account.email%></td>
+          <td><%= account.service.name if account.service %></td>
+          <td><%= (account.phone_numbers.collect{|ph| ph.phone_number}.join('<br/>')).html_safe if account.phone_numbers%></td>
+          <td><%= number_to_currency(account.base_fee) %></td>
+          <td>
+            <div class="btn-group">
+              <a class="btn dropdown-toggle btn-primary" data-toggle="dropdown" href="#">
+                Action<span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu">
+                <li><%= link_to "Edit Account Info", edit_account_admin_url(:id=>account.id)%></li>
+                <li><%= link_to "Sign In as this account", sign_in_as_account_admin_url(:id=>account.id)%></li>
+              </ul>
+            </div>
+          </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

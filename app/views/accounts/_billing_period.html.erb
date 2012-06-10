@@ -1,0 +1,9 @@
+<p><h3>Billing Period:</h3></p>
+<%= form_tag set_billing_period_accounts_url do %>
+<%= select 'billing','period_list',
+    billing_period_list(current_user.service_activation_date),{:selected => session[:billing_period]},
+    {:name=>'billing_period',
+     :onchange => "this.form.submit()",
+     :onmouseclick => "this.focus();"}
+%>
+<% end %>

@@ -1,25 +1,11 @@
 <div class="row">
   <div class="span4">
-      <p><h3>Billing Period:</h3></p>
-      <%= form_tag set_billing_period_accounts_url do %>
-      <%= select 'billing','period_list',
-          billing_period_list(current_user.service_activation_date),{:selected => session[:billing_period]},
-          {:name=>'billing_period',
-           :onchange => "this.form.submit()",
-           :onmouseclick => "this.focus();"}
-      %>
-      <% end %>
-      <p><h3>Phone Number:</h3></p>
-      <%= form_tag set_phone_number_accounts_url do %>
-        <%= select 'billing', 'phone_number',
-            current_user.phone_numbers.collect{|p| ["#{p.area_code} #{p.phone_number}","#{p.phone_number}"] },
-            {:selected => session[:phone_number]},
-            {:name=>'phone_number',
-             :onchange => "this.form.submit()",
-             :onmouseclick => "this.focus();"} %>
-      <% end %>
+    <%= render :partial => 'billing_period'%>
+    <h3>Download Invoice: </h3>
+    <p><%= image_tag 'pdf-icon.jpg'%>
+    <%= link_to "Download Invoice", "#",:class=>"btn btn-primary" %></p>
   </div>
-  <div class="span4">
+  <div class="span5">
     <p><h3><%= current_user.service.name%></h3></p>
     <table class="table table-condensed">
       <tbody>
@@ -31,7 +17,9 @@
         <% current_user.phone_numbers.each do |p|%>
           <tr>
             <td><span class="muted">Phone Number &nbsp;&nbsp;&nbsp;&nbsp;<%= "#{p.phone_number}"%></span></td>
-            <td class="right-aligned muted"><%= number_to_currency PhoneUsage.total_cost(p.phone_number,session[:billing_period])%></td>
+            <td class="right-aligned muted">
+              <%= number_to_currency PhoneUsage.total_cost(p.phone_number,session[:billing_period])%>
+            </td>
           </tr>
           <%phone_call_cost += PhoneUsage.total_cost(p.phone_number,session[:billing_period])%>
         <% end %>

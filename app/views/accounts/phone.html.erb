@@ -1,12 +1,35 @@
-  <div class="page-header span8">
-    <h2>Phone Usage</h2>
-  </div>
-  <%= render :partial => 'phone_billing_period' %>
-  <div class="page-header span8">
+  <div class="page-header">
     <h2>Phone Usage</h2>
   </div>
   <div class="row">
-    <div class="span8">
+    <div class="span3">
+      <%= render :partial => 'billing_period'%>
+      <%= render :partial => 'phone_number_selection'%>
+      <% duration = PhoneUsage.total_duration(session[:phone_number],session[:billing_period])%>
+      <table class="table table-condensed">
+        <tbody>
+          <tr>
+            <td><h3>Duration: </h3></td>
+            <td class="right-aligned"><h3><%= seconds_to_hours(duration)%></h3></td>
+          </tr>
+          <tr>
+            <td><h3>Cost: </h3></td>
+            <td class="right-aligned">
+              <h3><%= number_to_currency PhoneUsage.total_cost(session[:phone_number],session[:billing_period])%></h3>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="span1">&nbsp;</div>
+    <div class="span5">
+      <%= render :partial => 'high_chart_for_phone',
+                 :locals => {:phone_number => session[:phone_number]}
+      %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="span9">
       <table class="table table-bordered">
         <tbody>
           <tr>
