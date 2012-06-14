@@ -6,14 +6,30 @@ class AccountsController < ApplicationController
   before_filter :load_user_info
 
   def overview
+    if current_user.is_admin? && !params[:id].blank?
+      @account = User.find(params[:id])
+    else
+      @account = current_user
+    end
   end
 
   def phone
-    @transactions = PhoneUsage.transactions_for(session[:phone_number],session[:billing_period],params[:page])
+    if current_user.is_admin? && !params[:id].blank?
+      @account = User.find(params[:id])
+    else
+      @account = current_user
+    end
+    phone_number = @account.phone_numbers.first
+    @transactions = PhoneUsage.transactions_for(phone_number.phone_number,session[:billing_period],params[:page])
   end
 
   def internet
-    @transactions = InternetUsage.transactions_for(current_user.id,session[:billing_period])
+    if current_user.is_admin? && !params[:id].blank?
+      @account = User.find(params[:id])
+    else
+      @account = current_user
+    end
+    @transactions = InternetUsage.transactions_for(@account.id,session[:billing_period])
   end
 
   # change billing period for current session

@@ -51,25 +51,37 @@
           </div>
           <div class="span1">&nbsp;</div>
           <div class="span3">
-            <% if current_user %>
-              <div class="well sidebar-nav">
-                <h3>My Account</h3>
-                <ul class="nav nav-list">
-                    <li><%= link_to "Account Overview", overview_accounts_url %></li>
-                    <li><%= link_to "Check Phone Usage", phone_accounts_url %></li>
-                    <li><%= link_to "Check Internet Usage", internet_accounts_url %></li>
-                    <li><%= link_to "Sign Out", destroy_user_session_url, :method=>'DELETE' %></li>
-                </ul>
-              </div>
-            <% end %>
-            <% if true %>
+            <% if current_user.is_admin? %>
               <div class="well sidebar-nav pink-well">
-                <div class="alert alert-error"><strong>Only administrator can see this section</strong></div>
+                <div class="alert alert-error">
+                  <strong>Only administrator can see this section.
+                  <% unless current_user.id.eql?(@account.id) %>
+                      The account you are viewing: <%= @account.email%>
+                  <% end %></strong>
+                </div>
                 <ul class="nav nav-list">
+                  <% unless current_user.id.eql?(@account.id) %>
+                    <li><%= link_to "Account Overview", overview_accounts_url(:id=>@account.id) %></li>
+                    <li><%= link_to "Check Phone Usage", phone_accounts_url(:id=>@account.id) %></li>
+                    <li><%= link_to "Check Internet Usage", internet_accounts_url(:id=>@account.id) %></li>
+                    <li><hr></li>
+                  <% end %>
                     <li><%= link_to "Accounts List", accounts_admin_index_url %></li>
-                    <li><%= link_to "Edit Billing Details", phone_accounts_url %></li>
+                    <li><%= link_to('Logout', destroy_user_session_path, :method => :delete) %></li>
                 </ul>
               </div>
+            <% else %>
+              <% if current_user %>
+                <div class="well sidebar-nav">
+                  <h3>My Account</h3>
+                  <ul class="nav nav-list">
+                      <li><%= link_to "Account Overview", overview_accounts_url %></li>
+                      <li><%= link_to "Check Phone Usage", phone_accounts_url %></li>
+                      <li><%= link_to "Check Internet Usage", internet_accounts_url %></li>
+                      <li><%= link_to('Logout', destroy_user_session_path, :method => :delete) %></li>
+                  </ul>
+                </div>
+              <% end %>
             <% end %>
             </div>
           </div>

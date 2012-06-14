@@ -1,4 +1,4 @@
-<%= high_chart("internet_usage_#{current_user.id}", InternetUsage.high_chart(current_user,billing_period)) do |c|%>
+<%= high_chart("internet_usage_#{current_user.id}", InternetUsage.high_chart(@account,billing_period)) do |c|%>
   <%= "options.tooltip.formatter = function() { return this.point.name + ': '+ this.y +' %';}" %>
   <%= "options.yAxis.labels.formatter = function() { return this.value+'%';}" %>
 <% end %>

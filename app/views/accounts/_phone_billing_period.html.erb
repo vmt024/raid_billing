@@ -6,15 +6,15 @@
     <%= link_to "Download Invoice", "#",:class=>"btn btn-primary" %></p>
   </div>
   <div class="span5">
-    <p><h3><%= current_user.service.name%></h3></p>
+    <p><h3>&nbsp;<%= @account.service.name%></h3></p>
     <table class="table table-condensed">
       <tbody>
         <tr>
           <td><h4>Plan Charges</h4></td>
-          <td class="right-aligned"><h4><%= number_to_currency current_user.service.price_include_gst%></h4></td>
+          <td class="right-aligned"><h4><%= number_to_currency @account.service.price_include_gst%></h4></td>
         </tr>
         <% phone_call_cost = 0 %>
-        <% current_user.phone_numbers.each do |p|%>
+        <% @account.phone_numbers.each do |p|%>
           <tr>
             <td><span class="muted">Phone Number &nbsp;&nbsp;&nbsp;&nbsp;<%= "#{p.phone_number}"%></span></td>
             <td class="right-aligned muted">
@@ -28,9 +28,22 @@
           <td class="right-aligned muted"><%= number_to_currency 0%></td>
         </tr>
         <tr>
+          <td><span class="muted">credit description</span></td>
+          <td class="right-aligned muted"><%= '$100.00' %> (CR)
+            <%= link_to "Edit", '#', :class=>'btn btn-danger btn-mini' %>
+            <%= link_to "Delete", '#', :class=> 'btn btn-danger btn-mini'%>
+          </td>
+        </tr>
+        <tr>
           <td><h3>Total Charges:</h3></td>
-          <td class="right-aligned"><h3><%= number_to_currency current_user.service.price_include_gst + phone_call_cost%></h3> 
+          <td class="right-aligned"><h3><%= number_to_currency @account.service.price_include_gst + phone_call_cost%></h3> 
             <span class="muted">includes GST</span></td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td class="right-aligned">
+            <%= link_to "Add Credit", '#', :class=>'btn btn-danger' %>
+          </td>
         </tr>
       </tbody>
     </table>

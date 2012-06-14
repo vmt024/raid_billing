@@ -73,8 +73,13 @@ class PhoneUsage < ActiveRecord::Base
   def self.phone_usage_percentage(phone_number,billing_period,category_id)
     return 0 if category_id.blank?
     total_usage = PhoneUsage.total_duration(phone_number,billing_period)
+    return 0 if total_usage.eql?(0)
     usage = PhoneUsage.total_duration(phone_number,billing_period,category_id)
     return (((usage.to_f / total_usage.to_f)*100).round)
+  rescue => e
+    logger.error("Error::phone_usage_percentage")
+    logger.error(e)
+    return 0
   end
 
   def self.get_current_billing_period_regxp(billing_period)

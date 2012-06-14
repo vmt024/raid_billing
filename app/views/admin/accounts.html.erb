@@ -25,8 +25,8 @@
                 Action<span class="caret"></span>
               </a>
               <ul class="dropdown-menu">
+                <li><%= link_to "View Account Overview", overview_accounts_url(:id=>account.id)%></li>
                 <li><%= link_to "Edit Account Info", edit_account_admin_url(:id=>account.id)%></li>
-                <li><%= link_to "Sign In as this account", sign_in_as_account_admin_url(:id=>account.id)%></li>
               </ul>
             </div>
           </td>

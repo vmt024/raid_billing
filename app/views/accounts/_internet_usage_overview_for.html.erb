@@ -1,21 +1,21 @@
-  <div class="row">
-    <div class="span4">
-      <table class="table table-bordered">
-        <tbody>
-          <tr>
-            <th>Traffic Used:</th>
-            <td><%= number_to_human_size(InternetUsage.total_usage(current_user.id,session[:billing_period])) %></td>
-          </tr>
-          <tr>
-            <th>Traffic Limit:</th>
-            <td><%= number_to_human_size(current_user.service.included_internet_usage) %> </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="span5">
-      <%= render :partial => 'high_chart_for_internet',
-                 :locals => {:current_user => current_user,
-                             :billing_period => session[:billing_period]} %>
-    </div>
+<div class="row">
+  <div class="span4">
+    <table class="table table-bordered">
+      <tbody>
+        <tr>
+          <th>Traffic Used:</th>
+          <td><%= number_to_human_size(InternetUsage.total_usage(@account.id,session[:billing_period])) %></td>
+        </tr>
+        <tr>
+          <th>Traffic Limit:</th>
+          <td><%= number_to_human_size(@account.service.included_internet_usage) %> </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
+  <div class="span5">
+    <%= render :partial => 'high_chart_for_internet',
+               :locals => {:current_user => @account,
+                           :billing_period => session[:billing_period]} %>
+  </div>
+</div>

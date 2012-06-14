@@ -1,1 +1,39 @@
-edit
+<div class="page-header">
+  <h2>Edit Account Info</h2>
+</div>
+<div class="row">
+<%= form_tag(update_account_admin_url, {:class=>'form-horizontal'}) %>
+  <div class="control-group">
+    <%= label_tag :user_email, 'Account:', :class=>'control-label' %>
+    <div class="controls"><%= text_field :user, :email, :value=>@edit_account.email %></div>
+  </div>
+  <div class="control-group">
+    <%= label_tag :user_plan, 'Service Plan:', :class=>'control-label' %>
+    <div class="controls"><%= text_field :user, :plan, :value=>@edit_account.service.name%></div>
+  </div>
+  <div class="control-group">
+    <%= label_tag :user_fee, 'Service Fee:', :class=>'control-label' %>
+    <div class="controls"><%= text_field :user, :fee, :value=>@edit_account.base_fee %></div>
+  </div>
+  <div class="control-group">
+    <%= label_tag :user_phone_number_1, 'Phone Number:', :class=>'control-label' %>
+    <div class="controls"><%= text_field :user, :phone_number_1, :value=>@edit_account.phone_numbers.first.phone_number %></div>
+  </div>
+  <div class="control-group">
+    <div class="controls"><%= text_field :user, :phone_number_2, :value=>@edit_account.phone_numbers.first.phone_number%></div>
+  </div>
+  <div class="control-group">
+    <div class="controls"><%= text_field :user, :phone_number_3, :value=>@edit_account.phone_numbers.first.phone_number %></div>
+  </div>
+  <div class="control-group">
+    <div class="controls"><%= text_field :user, :phone_number_4, :value=>@edit_account.phone_numbers.first.phone_number%></div>
+  </div>
+  <div class="control-group">
+    <div class="controls"><%= text_field :user, :phone_number_5, :value=>@edit_account.phone_numbers.first.phone_number%></div>
+  </div>
+
+  <div class="signin-btn">
+    <%= submit_tag "Edit", :class=>'btn btn-primary' %>
+  </div>
+</form>
+</div>

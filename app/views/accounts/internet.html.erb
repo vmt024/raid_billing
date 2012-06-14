@@ -7,8 +7,7 @@
     </div>
     <div class="span5">
       <%= render :partial => 'high_chart_for_internet',
-                 :locals => {:current_user => current_user,
-                 :billing_period => session[:billing_period]}
+                 :locals => {:billing_period => session[:billing_period]}
       %>
     </div>
   </div>
