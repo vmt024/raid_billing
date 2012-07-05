@@ -4,35 +4,46 @@
       <table class="table table-bordered">
         <tbody>
         <tr>
-          <th>Total Duration:</th>
-          <td><% duration = PhoneUsage.total_duration(phone_number,session[:billing_period])%>
-            <%= seconds_to_hours(duration)%></td>
+          <th></th>
+          <th>Duration</th>
+          <th>Cost</th>
         </tr>
         <tr>
           <th>Auckland:</th>
           <td><%= seconds_to_hours(PhoneUsage.total_duration(phone_number,session[:billing_period],1))%></td>
+          <td><%=number_to_currency PhoneUsage.total_cost_by_category(phone_number,session[:billing_period],1)%></td>
         </tr>
         <tr>
           <th>National:</th>
           <td><%= seconds_to_hours(PhoneUsage.total_duration(phone_number,session[:billing_period],2))%></td>
+          <td><%=number_to_currency PhoneUsage.total_cost_by_category(phone_number,session[:billing_period],2)%></td>
         </tr>
         <tr>
           <th>Mobile:</th>
           <td><%= seconds_to_hours(PhoneUsage.total_duration(phone_number,session[:billing_period],3))%></td>
+          <td><%=number_to_currency PhoneUsage.total_cost_by_category(phone_number,session[:billing_period],3)%></td>
         </tr>
         <tr>
           <th>China:</th>
           <td><%= seconds_to_hours(PhoneUsage.total_duration(phone_number,session[:billing_period],4))%></td>
+          <td><%=number_to_currency PhoneUsage.total_cost_by_category(phone_number,session[:billing_period],4)%></td>
         </tr>
         <tr>
           <th>Tollfree:</th>
           <td><%= seconds_to_hours(PhoneUsage.total_duration(phone_number,session[:billing_period],5))%></td>
+          <td>$0.00 </td>
+        </tr>
+        <tr>
+          <th>Subtotal:</th>
+          <th><% duration = PhoneUsage.total_duration(phone_number,session[:billing_period])%>
+            <%= seconds_to_hours(duration)%></th>
+          <th><%=number_to_currency PhoneUsage.total_cost(phone_number,session[:billing_period])%></th>
         </tr>
         </tbody>
       </table>
     </div>
     <div class="span5">
-      <%= render :partial => 'high_chart_for_phone',
+      <%= render :partial => 'high_chart_for_phone.html.erb',
                  :locals => {:phone_number => phone_number}
       %>
     </div>

@@ -14,7 +14,7 @@
     </table>
   </div>
   <div class="span5">
-    <%= render :partial => 'high_chart_for_internet',
+    <%= render :partial => 'high_chart_for_internet.html.erb',
                :locals => {:current_user => @account,
                            :billing_period => session[:billing_period]} %>
   </div>

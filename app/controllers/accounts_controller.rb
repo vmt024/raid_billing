@@ -11,6 +11,12 @@ class AccountsController < ApplicationController
     else
       @account = current_user
     end
+    respond_to do |format|
+      format.html
+      format.pdf do
+        render :pdf => "account_overview"
+      end
+    end
   end
 
   def phone

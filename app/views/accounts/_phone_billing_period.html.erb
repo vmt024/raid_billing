@@ -1,9 +1,9 @@
 <div class="row">
   <div class="span4">
-    <%= render :partial => 'billing_period'%>
+    <%= render :partial => 'billing_period.html'%>
     <h3>Download Invoice: </h3>
     <p><%= image_tag 'pdf-icon.jpg'%>
-    <%= link_to "Download Invoice", "#",:class=>"btn btn-primary" %></p>
+    <%= link_to 'Download Invoice', overview_accounts_url(:format => :pdf),:class=>"btn btn-primary" %></p>
   </div>
   <div class="span5">
     <p><h3>&nbsp;<%= @account.service.name%></h3></p>
@@ -30,8 +30,10 @@
         <tr>
           <td><span class="muted">credit description</span></td>
           <td class="right-aligned muted"><%= '$100.00' %> (CR)
-            <%= link_to "Edit", '#', :class=>'btn btn-danger btn-mini' %>
-            <%= link_to "Delete", '#', :class=> 'btn btn-danger btn-mini'%>
+            <% if current_user.is_admin? %>
+              <%= link_to "Edit", '#', :class=>'btn btn-danger btn-mini' %>
+              <%= link_to "Delete", '#', :class=> 'btn btn-danger btn-mini'%>
+            <% end %>
           </td>
         </tr>
         <tr>
@@ -39,12 +41,15 @@
           <td class="right-aligned"><h3><%= number_to_currency @account.service.price_include_gst + phone_call_cost%></h3> 
             <span class="muted">includes GST</span></td>
         </tr>
-        <tr>
-          <td>&nbsp;</td>
-          <td class="right-aligned">
-            <%= link_to "Add Credit", '#', :class=>'btn btn-danger' %>
-          </td>
-        </tr>
+
+        <% if current_user.is_admin? %>
+          <tr>
+            <td>&nbsp;</td>
+            <td class="right-aligned">
+              <%= link_to "Add Credit", '#', :class=>'btn btn-danger' %>
+            </td>
+          </tr>
+        <% end %>
       </tbody>
     </table>
   </div>

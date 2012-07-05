@@ -34,12 +34,21 @@ class PhoneUsage < ActiveRecord::Base
          ).order('date_and_time asc').page params_page
   end
 
+  def self.total_cost_by_category(phone_number,billing_period,category_id,exclude_gst=nil)
+    regxp = get_current_billing_period_regxp(billing_period)
+    total = sum('cost',
+                :conditions=>['calling_from = ? and date_and_time like ? and category_id = ?',
+                phone_number,regxp,category_id])
+    return total if exclude_gst.eql?(true)
+    return total*(1.15)
+  end
+
   def self.total_cost(phone_number,billing_period,exclude_gst=nil)
     regxp = get_current_billing_period_regxp(billing_period)
     total = sum('cost',
                 :conditions=>['calling_from = ? and date_and_time like ?',
                 phone_number,regxp])
-    return total if exclude_gst.eql?(false)
+    return total if exclude_gst.eql?(true)
     return total*(1.15)
   end
 
@@ -55,7 +64,7 @@ class PhoneUsage < ActiveRecord::Base
   end
 
   def set_cost
-    t = self
+      t = self
       if (t.duration.to_i % 60).eql?(0)
         units = (t.duration.to_i / 60)
       else

@@ -1,0 +1,15 @@
+<div class="page-header">
+  <h2>Account Overview</h2>
+</div>
+<%= render :partial => 'phone_billing_period.html.erb' %>
+<div class="page-header">
+  <h2>Phone Usage</h2>
+</div>
+<% @account.phone_numbers.each do |account| %>
+  <%= render :partial => 'phone_usage_overview_for.html.erb',
+             :locals => {:phone_number => account.phone_number}%>
+<% end %>
+<div class="page-header">
+  <h2>Internet Usage</h2>
+</div>
+<%= render :partial => 'internet_usage_overview_for.html.erb' %>
