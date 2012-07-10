@@ -5,39 +5,37 @@
         <tbody>
         <tr>
           <th></th>
-          <th>Duration</th>
-          <th>Cost</th>
+          <th class="right-aligned">Quantity</th>
+          <th class="right-aligned">Cost</th>
         </tr>
         <tr>
           <th>Auckland:</th>
-          <td><%= seconds_to_hours(PhoneUsage.total_duration(phone_number,session[:billing_period],1))%></td>
-          <td><%=number_to_currency PhoneUsage.total_cost_by_category(phone_number,session[:billing_period],1)%></td>
+          <td class="right-aligned"><%= PhoneUsage.total_quantity(phone_number,session[:billing_period],1)%></td>
+          <td class="right-aligned"><%=number_to_currency PhoneUsage.total_cost_by_category(phone_number,session[:billing_period],1)%></td>
         </tr>
         <tr>
           <th>National:</th>
-          <td><%= seconds_to_hours(PhoneUsage.total_duration(phone_number,session[:billing_period],2))%></td>
-          <td><%=number_to_currency PhoneUsage.total_cost_by_category(phone_number,session[:billing_period],2)%></td>
+          <td class="right-aligned"><%= PhoneUsage.total_quantity(phone_number,session[:billing_period],2)%></td>
+          <td class="right-aligned"><%=number_to_currency PhoneUsage.total_cost_by_category(phone_number,session[:billing_period],2)%></td>
         </tr>
         <tr>
           <th>Mobile:</th>
-          <td><%= seconds_to_hours(PhoneUsage.total_duration(phone_number,session[:billing_period],3))%></td>
-          <td><%=number_to_currency PhoneUsage.total_cost_by_category(phone_number,session[:billing_period],3)%></td>
+          <td class="right-aligned"><%= PhoneUsage.total_quantity(phone_number,session[:billing_period],3)%></td>
+          <td class="right-aligned"><%=number_to_currency PhoneUsage.total_cost_by_category(phone_number,session[:billing_period],3)%></td>
         </tr>
         <tr>
           <th>China:</th>
-          <td><%= seconds_to_hours(PhoneUsage.total_duration(phone_number,session[:billing_period],4))%></td>
-          <td><%=number_to_currency PhoneUsage.total_cost_by_category(phone_number,session[:billing_period],4)%></td>
+          <td class="right-aligned"><%= PhoneUsage.total_quantity(phone_number,session[:billing_period],4)%></td>
+          <td class="right-aligned"><%=number_to_currency PhoneUsage.total_cost_by_category(phone_number,session[:billing_period],4)%></td>
         </tr>
         <tr>
           <th>Tollfree:</th>
-          <td><%= seconds_to_hours(PhoneUsage.total_duration(phone_number,session[:billing_period],5))%></td>
-          <td>$0.00 </td>
+          <td class="right-aligned"><%= PhoneUsage.total_quantity(phone_number,session[:billing_period],5)%></td>
+          <td class="right-aligned">$0.00 </td>
         </tr>
         <tr>
-          <th>Subtotal:</th>
-          <th><% duration = PhoneUsage.total_duration(phone_number,session[:billing_period])%>
-            <%= seconds_to_hours(duration)%></th>
-          <th><%=number_to_currency PhoneUsage.total_cost(phone_number,session[:billing_period])%></th>
+          <th colspan="2" class="right-aligned">Subtotal:</th>
+          <th class="right-aligned"><%=number_to_currency PhoneUsage.total_cost(phone_number,session[:billing_period])%></th>
         </tr>
         </tbody>
       </table>

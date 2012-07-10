@@ -28,6 +28,12 @@ class PhoneUsage < ActiveRecord::Base
     return h_c
   end
 
+  def self.all_transactions_for(phone_number,billing_period)
+    regxp = get_current_billing_period_regxp(billing_period)
+    where(['calling_from = ? and date_and_time like ?',phone_number,regxp]
+         ).group('date_and_time').order('date_and_time asc')
+  end
+
   def self.transactions_for(phone_number,billing_period, params_page)
     regxp = get_current_billing_period_regxp(billing_period)
     where(['calling_from = ? and date_and_time like ?',phone_number,regxp]
@@ -52,6 +58,17 @@ class PhoneUsage < ActiveRecord::Base
     return total*(1.15)
   end
 
+  def self.total_quantity(phone_number,billing_period,category=nil)
+    regxp = get_current_billing_period_regxp(billing_period)
+    if category
+      sum('qty',:conditions=>['calling_from = ? and date_and_time like ? and category_id = ?',
+        phone_number,regxp,category])
+    else
+      sum('qty',:conditions=>['calling_from = ? and date_and_time like ?',
+        phone_number,regxp])
+    end
+  end
+
   def self.total_duration(phone_number,billing_period,category=nil)
     regxp = get_current_billing_period_regxp(billing_period)
     if category
@@ -65,7 +82,9 @@ class PhoneUsage < ActiveRecord::Base
 
   def set_cost
       t = self
-      if (t.duration.to_i % 60).eql?(0)
+      if (t.duration.to_i <= 60)
+        units = 1
+      elsif (t.duration.to_i % 60).eql?(0)
         units = (t.duration.to_i / 60)
       else
         units = (t.duration.to_i / 60).round + 1
@@ -74,6 +93,7 @@ class PhoneUsage < ActiveRecord::Base
       t.cost = units*(0.08) if t.category_id.eql?(2)
       t.cost = units*(0.18) if t.category_id.eql?(3)
       t.cost = units*(0.04) if t.category_id.eql?(4)
+      t.qty = units
       t.save
   end
 

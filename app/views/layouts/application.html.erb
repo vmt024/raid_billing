@@ -47,6 +47,12 @@
             <% if alert %>
               <p class="alert"><%= alert %></p>
             <% end %>
+            <% unless flash[:error].blank? %>
+              <p class="alert alert-error"><%= flash[:error] %></p>
+            <% end %>
+            <% unless flash[:notice].blank? %>
+              <p class="alert alert-success"><%= flash[:notice] %></p>
+            <% end %>
             <%= yield %>
           </div>
           <div class="span1">&nbsp;</div>

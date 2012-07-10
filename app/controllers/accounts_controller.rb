@@ -11,10 +11,16 @@ class AccountsController < ApplicationController
     else
       @account = current_user
     end
+
+    filename = "#{session[:billing_period].to_date.beginning_of_month.strftime('%B-%Y')}"
+    filename += "-#{@account.email.split('@')[0]}"
     respond_to do |format|
       format.html
       format.pdf do
-        render :pdf => "account_overview"
+        render :pdf => filename,
+               :disposition => 'attachment',
+               :footer => { :spacing=>5,:right => 'Page [page] of [topage]',:font_size=>10 },
+               :margin => {:bottom=> 13}
       end
     end
   end

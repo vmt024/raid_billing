@@ -1,0 +1,19 @@
+<div class="page-header">
+  <h2>Edit Phone Number</h2>
+</div>
+<div class="row">
+<%= form_tag(update_phone_number_admin_url, {:class=>'form-horizontal'}) %>
+  <div class="control-group">
+    <%= label_tag :phone_number_user_id, 'User:', :class=>'control-label' %>
+    <% user_list = User.all.collect{ |u| [u.email,u.id]}%>
+    <div class="controls"><%= select :phone_number, :user_id, user_list %></div>
+  </div>
+  <div class="control-group">
+    <%= label_tag :phone_number_phone_number, 'Phone Number:', :class=>'control-label' %>
+    <div class="controls"><%= text_field :phone_number, :phone_number %></div>
+  </div>
+  <div class="signin-btn">
+    <%= submit_tag "Save", :class=>'btn btn-primary' %>
+  </div>
+</form>
+</div>

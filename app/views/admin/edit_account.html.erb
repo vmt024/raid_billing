@@ -9,31 +9,27 @@
   </div>
   <div class="control-group">
     <%= label_tag :user_plan, 'Service Plan:', :class=>'control-label' %>
-    <div class="controls"><%= text_field :user, :plan, :value=>@edit_account.service.name%></div>
+    <% service_list = Service.all.collect{ |s| ["#{s.name} #{number_to_currency(s.price_include_gst)}",s.id]}%>
+    <div class="controls"><%= select :user, :plan, service_list,:selected=>@edit_account.service.id %></div>
   </div>
   <div class="control-group">
     <%= label_tag :user_fee, 'Service Fee:', :class=>'control-label' %>
-    <div class="controls"><%= text_field :user, :fee, :value=>@edit_account.base_fee %></div>
+    <div class="controls"><%= text_field :user, :fee, :value=>@edit_account.base_fee||@edit_account.service.price_include_gst %></div>
   </div>
   <div class="control-group">
-    <%= label_tag :user_phone_number_1, 'Phone Number:', :class=>'control-label' %>
-    <div class="controls"><%= text_field :user, :phone_number_1, :value=>@edit_account.phone_numbers.first.phone_number %></div>
-  </div>
-  <div class="control-group">
-    <div class="controls"><%= text_field :user, :phone_number_2, :value=>@edit_account.phone_numbers.first.phone_number%></div>
-  </div>
-  <div class="control-group">
-    <div class="controls"><%= text_field :user, :phone_number_3, :value=>@edit_account.phone_numbers.first.phone_number %></div>
-  </div>
-  <div class="control-group">
-    <div class="controls"><%= text_field :user, :phone_number_4, :value=>@edit_account.phone_numbers.first.phone_number%></div>
-  </div>
-  <div class="control-group">
-    <div class="controls"><%= text_field :user, :phone_number_5, :value=>@edit_account.phone_numbers.first.phone_number%></div>
+    <%= label_tag :user_phone_number_1, 'Phone Number(s):', :class=>'control-label' %>
+    <div class="controls">
+      <% @edit_account.phone_numbers.each do |phone|%>
+        <%= phone.phone_number %> <%= link_to "Edit", edit_phone_number_admin_url(phone.id), :class=>'btn'%> 
+        <%= link_to "Delete", destroy_phone_number_admin_url(phone.id), :method=>:delete, :class=>'btn'%> 
+        <br/>
+      <% end %>
+      <%= link_to "Add Another Phone Number", add_phone_number_admin_url(:user_id => @edit_account.id), :class=>'btn'%>
+    </div>
   </div>
 
   <div class="signin-btn">
-    <%= submit_tag "Edit", :class=>'btn btn-primary' %>
+    <%= submit_tag "Save", :class=>'btn btn-primary' %>
   </div>
 </form>
 </div>

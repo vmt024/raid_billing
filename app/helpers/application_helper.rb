@@ -24,6 +24,16 @@ module ApplicationHelper
     return list
   end
 
+  def seconds_to_qty(time)
+    if (time <= 60)
+      return qty = 1
+    elsif (time % 60).eql?(0)
+      return qty = time/60
+    else
+      return qty = time/60 + 1
+    end
+  end
+
   def seconds_to_hours(time,option=nil)
     hours = time/3600.to_i
     minutes = (time/60 - hours * 60).to_i
@@ -40,5 +50,11 @@ module ApplicationHelper
     Category.find(category_id).description
   rescue
     return "Unknown"
+  end
+
+  def billing_period_info
+    session[:billing_period].to_date.beginning_of_month.strftime('%B-%Y')
+  rescue
+    'Error'
   end
 end

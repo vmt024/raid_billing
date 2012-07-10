@@ -1,0 +1,24 @@
+<div class="page-header">
+  <h2>Edit Account Credit: <%= @account.email%></h2>
+</div>
+<div class="row">
+<%= form_tag(update_account_admin_url, {:class=>'form-horizontal'}) %>
+  <div class="control-group">
+    <%= label_tag :billing_period_list, 'Billing Period:', :class=>'control-label' %>
+    <div class="controls">
+      <%= select 'billing','period_list',
+        billing_period_list(@account.service_activation_date),{:selected => session[:billing_period]},
+        {:name=>'billing_period'}
+    %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= label_tag :billing_credit, 'Credit:', :class=>'control-label' %>
+    <div class="controls"><%= text_field :billing, :credit %></div>
+  </div>
+
+  <div class="signin-btn">
+    <%= submit_tag "Edit", :class=>'btn btn-primary' %>
+  </div>
+</form>
+</div>

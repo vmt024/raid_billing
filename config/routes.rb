@@ -20,7 +20,18 @@ RaidBilling::Application.routes.draw do
   resources :admin, :only=>[:accounts,:edit_account, :sign_in_as_account] do
     member do
       get :edit_account
+      get :add_phone_number
+      get :edit_phone_number
+      get :account_credit
       post:update_account
+      post:update_phone_number
+      post:update_credit
+      put :create_credit
+      post :create_phone_number
+      get :new_credit
+      get :edit_credit
+      delete :destroy_credit
+      delete :destroy_phone_number
       get :sign_in_as_account
     end
     collection do

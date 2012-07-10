@@ -1,15 +1,44 @@
-<div class="page-header">
-  <h2>Account Overview</h2>
-</div>
-<%= render :partial => 'phone_billing_period.html.erb' %>
-<div class="page-header">
-  <h2>Phone Usage</h2>
-</div>
-<% @account.phone_numbers.each do |account| %>
-  <%= render :partial => 'phone_usage_overview_for.html.erb',
-             :locals => {:phone_number => account.phone_number}%>
-<% end %>
-<div class="page-header">
-  <h2>Internet Usage</h2>
-</div>
-<%= render :partial => 'internet_usage_overview_for.html.erb' %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <%= wicked_pdf_stylesheet_link_tag "application", "pdf" %>
+    <style>
+        .page-breaker {display:block; clear:both; page-break-after:always; }
+    </style>
+  </head>
+  <body class="document">
+    <div id="content">
+      <div class="page-header">
+        <h2>Phone Usage for <%= billing_period_info%></h2>
+      </div>
+      <% @account.phone_numbers.each do |account| %>
+        <p><h4>Usage Details: <%= account.phone_number%></h4></p>
+        <table class="table table-striped table-condensed">
+          <tbody>
+            <tr>
+              <th>Date and time</th>
+              <th>Number</th>
+              <th>Type (Place)</th>
+              <th>Duration</th>
+              <th class="right-aligned">Quantity</th>
+              <th class="right-aligned">Cost (excl GST)</th>
+            <tr>
+            <% PhoneUsage.all_transactions_for(account.phone_number,session[:billing_period]).each do |tran|%>
+            <tr>
+              <td><%= tran.date_and_time.strftime("%d %b %Y %I:%M %p") %></td>
+              <td><%= tran.calling_to %></td>
+              <td><%= category_to_location(tran.category_id) %></td>
+              <td><%= seconds_to_hours(tran.duration) %></td>
+              <td class="right-aligned"><%= tran.qty %></td>
+              <td class="right-aligned"><%= number_to_currency(tran.cost) %></td>
+            </tr>
+            <% end %>
+          </tbody>
+        </table>
+        <div class="page-breaker"></div>
+      <% end %>
+    </div>
+  </body>
+</html>
