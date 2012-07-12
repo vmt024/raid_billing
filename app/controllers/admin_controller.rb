@@ -69,27 +69,40 @@ class AdminController < ApplicationController
   def account_credit
     @account = current_user
     @edit_account = User.find(params[:id])
-    @billing_credits = BillingCredit.where(['user_id = ?', params[:id]])
-  end
-
-
-  def new_credit
-
+    @billing_credits = BillingCredit.where(['user_id = ?', @edit_account.id])
   end
 
   def edit_credit
-
-  end
-
-  def create_credit
-
+    @account = current_user
+    @edit_account = User.find(params[:id])
+    @billing_credit = BillingCredit.where(['user_id = ? and billing_period like ?', @edit_account.id, params[:billing_period]])
+    if @billing_credit.blank?
+      @billing_credit = BillingCredit.new
+      @billing_credit.amount = 0
+    else 
+      @billing_credit = @billing_credit.first
+    end
   end
 
   def update_credit
+    @account = current_user
+    @billing_credit = BillingCredit.where(['user_id = ? and billing_period like ?',params[:id], params[:billing_period]])
+    if @billing_credit.blank?
+     @billing_credit = BillingCredit.new
+    else 
+      @billing_credit = @billing_credit.first
+    end
+    @billing_credit.amount = params[:billing][:credit]
+    @billing_credit.billing_period = params[:billing_period]
+    @billing_credit.user_id = params[:id]
 
+    if @billing_credit.save
+      flash[:notice] = "Credit Saved"
+      redirect_to account_credit_admin_url
+    else
+      flash[:error] = "System cannot save credit."
+      render edit_credit_admin_url
+    end
   end
 
-  def delete_credit
-
-  end
 end

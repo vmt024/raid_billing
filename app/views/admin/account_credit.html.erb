@@ -1,24 +1,26 @@
 <div class="page-header">
-  <h2>Edit Account Credit: <%= @account.email%></h2>
+  <h2>Billing period credits for <%= @edit_account.email%></h2>
 </div>
-<div class="row">
-<%= form_tag(update_account_admin_url, {:class=>'form-horizontal'}) %>
-  <div class="control-group">
-    <%= label_tag :billing_period_list, 'Billing Period:', :class=>'control-label' %>
-    <div class="controls">
-      <%= select 'billing','period_list',
-        billing_period_list(@account.service_activation_date),{:selected => session[:billing_period]},
-        {:name=>'billing_period'}
-    %>
-    </div>
-  </div>
-  <div class="control-group">
-    <%= label_tag :billing_credit, 'Credit:', :class=>'control-label' %>
-    <div class="controls"><%= text_field :billing, :credit %></div>
-  </div>
-
-  <div class="signin-btn">
-    <%= submit_tag "Edit", :class=>'btn btn-primary' %>
-  </div>
-</form>
-</div>
+  <table class="table table-bordered">
+    <tbody>
+      <tr>
+        <th>Billing Period</th>
+        <th class="right-aligned">Credit</th>
+        <th></th>
+      </tr>
+      <% billing_period_list.each do |billing_period| %>
+      <tr>
+        <th><%= billing_period[0]%></th>
+        <td class="right-aligned">
+          <% credit = BillingCredit.get_credit_for(billing_period[1],@edit_account.id) %>
+          <% if credit.blank? %>
+            $0.00
+          <% else %>
+            <%= number_to_currency credit.amount %>
+          <% end %>
+        </td>
+        <td><%= link_to 'Edit', edit_credit_admin_url(:billing_period=>billing_period[1]), :class=>"btn btn-primary"%></td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
