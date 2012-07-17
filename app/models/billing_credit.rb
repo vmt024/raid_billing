@@ -8,4 +8,5 @@ class BillingCredit < ActiveRecord::Base
     return credit.first unless credit.blank?
     return nil
   end
+
 end

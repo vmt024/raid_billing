@@ -4,14 +4,19 @@
 <div class="row">
 <%= form_tag(update_credit_admin_url, {:class=>'form-horizontal'}) %>
   <div class="control-group">
-    <%= label_tag :billing_period_list, 'Billing Period:', :class=>'control-label' %>
+    <%= label_tag :billing_period, 'Billing Period:', :class=>'control-label' %>
     <div class="controls">
-      <%= select 'billing','period_list',
+      <%= select 'billing','period',
         billing_period_list,{:selected => params[:billing_period]},
-        {:name=>'billing_period',:disabled=>true}
+        {:name=>'billing[period]'}
     %>
     </div>
   </div>
+  <div class="control-group">
+    <%= label_tag :billing_description, 'Description:', :class=>'control-label' %>
+    <div class="controls"><%= text_field :billing, :description, :value=>@billing_credit.description,:maxlength=>42 %></div>
+  </div>
+
   <div class="control-group">
     <%= label_tag :billing_credit, 'Credit:', :class=>'control-label' %>
     <div class="controls"><%= text_field :billing, :credit, :value=>@billing_credit.amount %></div>

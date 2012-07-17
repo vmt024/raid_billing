@@ -16,13 +16,13 @@
         <% @accounts.each do |account|%>
         <tr>
           <td><%= account.email%></td>
-          <td><%= account.service.name if account.service %></td>
+          <td><%= [account.service.name, number_to_currency(account.service.price_include_gst)].join('  ') if account.service %></td>
           <td><%= (account.phone_numbers.collect{|ph| ph.phone_number}.join('<br/>')).html_safe if account.phone_numbers%></td>
           <td><%= number_to_currency(account.base_fee) %></td>
           <td>
             <%= link_to "View", overview_accounts_url(:id=>account.id), :class=>'btn btn-primary btn-mini'%>
             <%= link_to "Edit", edit_account_admin_url(:id=>account.id), :class=>'btn btn-primary btn-mini'%>
-            <%= link_to "Credit", edit_account_admin_url(:id=>account.id), :class=>'btn btn-primary btn-mini'%>
+            <%= link_to "Credit", account_credit_admin_url(:id=>account.id), :class=>'btn btn-primary btn-mini'%>
           </td>
           </tr>
         <% end %>

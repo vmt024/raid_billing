@@ -79,6 +79,7 @@ class AdminController < ApplicationController
     if @billing_credit.blank?
       @billing_credit = BillingCredit.new
       @billing_credit.amount = 0
+      @billing_credit.description = 'Credit'
     else 
       @billing_credit = @billing_credit.first
     end
@@ -86,15 +87,16 @@ class AdminController < ApplicationController
 
   def update_credit
     @account = current_user
-    @billing_credit = BillingCredit.where(['user_id = ? and billing_period like ?',params[:id], params[:billing_period]])
+    @billing_credit = BillingCredit.where(['user_id = ? and billing_period like ?',params[:id], params[:billing][:period]])
     if @billing_credit.blank?
      @billing_credit = BillingCredit.new
     else 
       @billing_credit = @billing_credit.first
     end
     @billing_credit.amount = params[:billing][:credit]
-    @billing_credit.billing_period = params[:billing_period]
+    @billing_credit.billing_period = params[:billing][:period]
     @billing_credit.user_id = params[:id]
+    @billing_credit.description = params[:billing][:description]
 
     if @billing_credit.save
       flash[:notice] = "Credit Saved"

@@ -16,7 +16,7 @@
       <tbody>
         <tr>
           <td><h4>Plan Charges</h4></td>
-          <td class="right-aligned"><h4><%= number_to_currency @account.service.price_include_gst%></h4></td>
+          <td class="right-aligned"><h4><%= number_to_currency account_plan_fees%></h4></td>
         </tr>
         <% phone_call_cost = 0 %>
         <% @account.phone_numbers.each do |p|%>
@@ -36,20 +36,20 @@
 
         <% if !credit.blank? && !credit.amount.blank? && !credit.amount.eql?(0) %>
         <tr>
-          <td><span class="muted">Credit</span></td>
+          <td><span class="muted"><%= credit.description.blank? ? 'Credit' : credit.description %></span></td>
           <td class="right-aligned muted">
             -<%= number_to_currency credit.amount %>
           </td>
         </tr>
         <tr>
           <td><h3>Total Charges:</h3></td>
-          <td class="right-aligned"><h3><%= number_to_currency(@account.service.price_include_gst + phone_call_cost - credit.amount)%></h3> 
+          <td class="right-aligned"><h3><%= number_to_currency(account_plan_fees + phone_call_cost - credit.amount)%></h3> 
             <span class="muted">includes GST</span></td>
         </tr>
         <% else %>
         <tr>
           <td><h3>Total Charges:</h3></td>
-          <td class="right-aligned"><h3><%= number_to_currency @account.service.price_include_gst + phone_call_cost%></h3> 
+          <td class="right-aligned"><h3><%= number_to_currency account_plan_fees + phone_call_cost%></h3> 
             <span class="muted">includes GST</span></td>
         </tr>
         <% end %>

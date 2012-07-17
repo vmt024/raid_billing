@@ -10,11 +10,10 @@
   </head>
   <body class="document">
     <div id="content">
-      <div class="page-header">
-        <h2>Phone Usage for <%= billing_period_info%></h2>
-      </div>
       <% @account.phone_numbers.each do |account| %>
-        <p><h4>Usage Details: <%= account.phone_number%></h4></p>
+        <div class="page-header">
+          <h2>Phone Usage for <%= account.phone_number%> (<%= billing_period_info%>)</h2>
+        </div>
         <table class="table table-striped table-condensed">
           <tbody>
             <tr>

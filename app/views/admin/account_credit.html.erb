@@ -5,14 +5,16 @@
     <tbody>
       <tr>
         <th>Billing Period</th>
+        <th>Description</th>
         <th class="right-aligned">Credit</th>
         <th></th>
       </tr>
       <% billing_period_list.each do |billing_period| %>
+          <% credit = BillingCredit.get_credit_for(billing_period[1],@edit_account.id) %>
       <tr>
         <th><%= billing_period[0]%></th>
+        <th><%= credit.blank? ? 'Credit' : credit.description%></th>
         <td class="right-aligned">
-          <% credit = BillingCredit.get_credit_for(billing_period[1],@edit_account.id) %>
           <% if credit.blank? %>
             $0.00
           <% else %>
