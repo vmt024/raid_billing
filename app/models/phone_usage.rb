@@ -21,6 +21,10 @@ class PhoneUsage < ActiveRecord::Base
     h_c = LazyHighCharts::HighChart.new('graph') do |f| 
       f.options[:chart][:defaultSeriesType] = "pie" 
       f.options[:chart][:height] = 264
+      f.options[:chart][:animation] = false
+      f.options[:plotOptions] = {:series => {:animation => false}}
+      f.options[:plotOptions] = {:series => {:enableMouseTracking => false}}
+      f.options[:plotOptions] = {:series => {:shadow => false}}
       f.options[:chart][:width] = 380
       f.options[:title][:text] = "Phone Usage"
       f.series(:name=>'Phone Usage', :data=>data)

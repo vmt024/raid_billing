@@ -7,9 +7,65 @@
     <style>
         .page-breaker {display:block; clear:both; page-break-after:always; }
     </style>
+    <script type="text/javascript" src="file://#{Rails.root.join('public','javascripts','highcharts.js')}"></script>
   </head>
   <body class="document">
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+          <div class="container">
+          <a class="brand" href="#">Telephone Bill for <%= billing_period_info %></a>
+        </div>
+      </div>
+    </div>
     <div id="content">
+    <table class="table table-condensed">
+      <tbody>
+        <tr>
+        <td><h4>Plan: <%= @account.service.name%></h4></td>
+          <td class="right-aligned"><h4><%= number_to_currency account_plan_fees%></h4></td>
+        </tr>
+        <% phone_call_cost = 0 %>
+        <% @account.phone_numbers.each do |p|%>
+          <tr>
+            <td><span class="muted">Phone Number &nbsp;&nbsp;&nbsp;&nbsp;<%= "#{p.phone_number}"%></span></td>
+            <td class="right-aligned muted">
+              <%= number_to_currency PhoneUsage.total_cost(p.phone_number,session[:billing_period])%>
+            </td>
+          </tr>
+          <%phone_call_cost += PhoneUsage.total_cost(p.phone_number,session[:billing_period])%>
+        <% end %>
+       <!-- <tr>
+          <td><span class="muted">Internet Charges</span></td>
+          <td class="right-aligned muted">%= number_to_currency 0%></td>
+          </tr>
+        -->
+        <% credit = BillingCredit.get_credit_for(session[:billing_period],@account.id) %>
+
+        <% if !credit.blank? && !credit.amount.blank? && !credit.amount.eql?(0) %>
+        <tr>
+          <td><span class="muted"><%= credit.description.blank? ? 'Credit' : credit.description %></span></td>
+          <td class="right-aligned muted">
+            -<%= number_to_currency credit.amount %>
+          </td>
+        </tr>
+        <tr>
+          <td><h2>Total Amount Due:</h2></td>
+          <td class="right-aligned"><h2><%= number_to_currency(account_plan_fees + phone_call_cost - credit.amount)%></h2> 
+            <span class="muted">includes GST</span></td>
+        </tr>
+        <% else %>
+        <tr>
+          <td><h2>Total Amount Due:</h2></td>
+          <td class="right-aligned"><h2><%= number_to_currency account_plan_fees + phone_call_cost%></h2> 
+            <span class="muted">includes GST</span></td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+      <% @account.phone_numbers.each do |account| %>
+        <%= render :partial => "phone_usage_overview_for", :locals=>{:phone_number => account.phone_number}%>
+      <% end %>
+        <div class="page-breaker"></div>
       <% @account.phone_numbers.each do |account| %>
         <div class="page-header">
           <h2>Phone Usage for <%= account.phone_number%> (<%= billing_period_info%>)</h2>
