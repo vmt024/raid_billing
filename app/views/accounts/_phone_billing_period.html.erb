@@ -23,10 +23,10 @@
           <tr>
             <td><span class="muted">Phone Number &nbsp;&nbsp;&nbsp;&nbsp;<%= "#{p.phone_number}"%></span></td>
             <td class="right-aligned muted">
-              <%= number_to_currency PhoneUsage.total_cost(p.phone_number,session[:billing_period])%>
+                <%= number_to_currency PhoneUsage.total_cost(p.phone_number,session[:billing_period])%>
             </td>
           </tr>
-          <%phone_call_cost += PhoneUsage.total_cost(p.phone_number,session[:billing_period])%>
+          <% phone_call_cost += PhoneUsage.total_cost(p.phone_number,session[:billing_period])%>
         <% end %>
         <tr>
           <td><span class="muted">Internet Charges</span></td>
@@ -49,7 +49,7 @@
         <% else %>
         <tr>
           <td><h3>Total Charges:</h3></td>
-          <td class="right-aligned"><h3><%= number_to_currency account_plan_fees + phone_call_cost%></h3> 
+          <td class="right-aligned"><h3><%= number_to_currency(account_plan_fees + phone_call_cost)%></h3> 
             <span class="muted">includes GST</span></td>
         </tr>
         <% end %>

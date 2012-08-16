@@ -49,8 +49,8 @@ class PhoneUsage < ActiveRecord::Base
     total = sum('cost',
                 :conditions=>['calling_from = ? and date_and_time like ? and category_id = ?',
                 phone_number,regxp,category_id])
-    return total if exclude_gst.eql?(true)
-    return total*(1.15)
+    return total.round(2) if exclude_gst.eql?(true)
+    return (total*(1.15)).round(2)
   end
 
   def self.total_cost(phone_number,billing_period,exclude_gst=nil)
@@ -58,8 +58,8 @@ class PhoneUsage < ActiveRecord::Base
     total = sum('cost',
                 :conditions=>['calling_from = ? and date_and_time like ?',
                 phone_number,regxp])
-    return total if exclude_gst.eql?(true)
-    return total*(1.15)
+    return total.rount(2) if exclude_gst.eql?(true)
+    return (total*(1.15)).round(2)
   end
 
   def self.total_quantity(phone_number,billing_period,category=nil)
