@@ -7,7 +7,7 @@
     <%= label_tag :billing_period_list, 'Billing Period:', :class=>'control-label' %>
     <div class="controls">
       <%= select 'billing','period_list',
-        billing_period_list(@account.service_activation_date),{:selected => session[:billing_period]},
+        billing_period_list,{:selected => session[:billing_period]},
         {:name=>'billing_period'}
     %>
     </div>

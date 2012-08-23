@@ -7,8 +7,8 @@ class CreatePhoneUsages < ActiveRecord::Migration
       t.string    :calling_to,            :null => false
       t.integer   :duration,              :null => false
       t.integer   :category_id,           :null => false
-      t.decimal   :cost,                  :null => false
-      t.boolean   :billed,                :null => false, :default => false
+      t.decimal   :cost,                  :null => false, :precision => 11, :scale => 2
+      t.integer   :qty
       t.timestamps
     end
   end

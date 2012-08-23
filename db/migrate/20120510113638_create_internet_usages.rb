@@ -5,7 +5,6 @@ class CreateInternetUsages < ActiveRecord::Migration
       t.date    :date,       :null => false
       t.integer :data_uploaded,     :null => false, :default => 0
       t.integer :data_downloaded,   :null => false, :default => 0
-      t.boolean :billed,            :null => false, :default => false
       t.timestamps
     end
   end

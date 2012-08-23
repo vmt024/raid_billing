@@ -33,23 +33,12 @@ class DeviseCreateUsers < ActiveRecord::Migration
       # t.string   :unlock_token # Only if unlock strategy is :email or :both
       t.datetime :locked_at
 
+      t.boolean  :is_admin,   :null => false,   :default => false
+      t.integer  :service_id, :null => false
+      t.decimal  :base_fee,   :precision => 11, :scale => 2
+
       ## Token authenticatable
       # t.string :authentication_token
-
-      ## extra infor for billing
-      t.integer :group_id # groups tables
-
-      ## Billing address
-      t.string :first_name
-      t.string :last_name
-      t.string :preferred_name
-      t.string :company_name
-      t.string :billing_address_1
-      t.string :billing_address_2
-      t.string :billing_address_3
-      t.string :billing_address_4
-      t.string :billing_post_code
-      t.boolean :enabled
 
       t.timestamps
     end

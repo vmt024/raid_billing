@@ -5,7 +5,7 @@ module ApplicationHelper
   # the selection should begin with user's service activation month
   # Notes: billing date starts from 1st of every month
   #
-  def billing_period_list(service_activation_date=nil)
+  def billing_period_list
 
     start_date = Date.today.beginning_of_month
     list = []
@@ -14,12 +14,6 @@ module ApplicationHelper
       months_ago = start_date.months_ago(i)
       display_tag = "%B-%Y"
       list << [months_ago.strftime(display_tag) ,months_ago.to_s]
-
-      # check user's service activation date
-      unless service_activation_date.blank?
-        service_activation_date = service_activation_date.to_date.beginning_of_month
-        break if service_activation_date.eql?(months_ago.beginning_of_month)
-      end
     end
     return list
   end
