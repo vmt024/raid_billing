@@ -1,3 +1,4 @@
 <%= high_chart("phone_usage_#{phone_number}", PhoneUsage.high_chart(phone_number,session[:billing_period])) do |c|  %>
-  <%= "options.tooltip.formatter = function() { return this.point.name +': '+ this.y +' %';}" %>
+  options.tooltip.formatter = function() { return this.point.name + ':' +  this.y + '%';}
 <% end %>
+
