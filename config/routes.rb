@@ -33,6 +33,7 @@ RaidBilling::Application.routes.draw do
       delete :destroy_credit
       delete :destroy_phone_number
       get :sign_in_as_account
+      get :calculate_phone_call_cost_and_duration
     end
     collection do
       get :accounts

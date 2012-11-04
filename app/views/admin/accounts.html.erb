@@ -4,8 +4,8 @@
 
 <div class="row">
   <div class="span9">
-    <table class="table table-bordered">
-      <tbody>
+    <table class="table table-bordered" id="accounts_list">
+       <thead>
         <tr>
           <th>Account</th>
           <th>Plan</th>
@@ -13,6 +13,8 @@
           <th>Fee</th>
           <th>&nbsp;</th>
         <tr>
+      </thead>
+      <tbody>
         <% @accounts.each do |account|%>
         <tr>
           <td><%= account.email%></td>
@@ -20,9 +22,15 @@
           <td><%= (account.phone_numbers.collect{|ph| ph.phone_number}.join('<br/>')).html_safe if account.phone_numbers%></td>
           <td><%= number_to_currency(account.base_fee) %></td>
           <td>
-            <%= link_to "View", overview_accounts_url(:id=>account.id), :class=>'btn btn-primary btn-mini'%>
-            <%= link_to "Edit", edit_account_admin_url(:id=>account.id), :class=>'btn btn-primary btn-mini'%>
-            <%= link_to "Credit", account_credit_admin_url(:id=>account.id), :class=>'btn btn-primary btn-mini'%>
+           <div class="btn-group">
+             <button class="btn dropdown-toggle" data-toggle="dropdown"><i class="icon-wrench"></i> Setting <span class="caret"></span></button>
+                <ul class="dropdown-menu">
+                  <li><%= link_to "View account info", overview_accounts_url(:id=>account.id)%></li>
+	          <li><%= link_to "Edit account details", edit_account_admin_url(:id=>account.id)%></li>
+           	  <li><%= link_to "Manage credits", account_credit_admin_url(:id=>account.id)%></li>
+            	  <li><%= link_to "recalculate phone usage cost", calculate_phone_call_cost_and_duration_admin_url(:id=>account.id)%></li>
+                </ul>
+            </div>
           </td>
           </tr>
         <% end %>
@@ -30,3 +38,11 @@
     </table>
   </div>
 </div>
+<script>
+$(document).ready(function()
+	{
+		$("#accounts_list").tablesorter();
+	}
+);
+</script>
+	

@@ -31,8 +31,8 @@ class AccountsController < ApplicationController
     else
       @account = current_user
     end
-    phone_number = @account.phone_numbers.first
-    @transactions = PhoneUsage.transactions_for(phone_number.phone_number,session[:billing_period],params[:page])
+    phone_number = session[:phone_number] # : @account.phone_numbers.first
+    @transactions = PhoneUsage.transactions_for(session[:phone_number],session[:billing_period],params[:page])
   end
 
   def internet

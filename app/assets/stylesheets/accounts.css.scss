@@ -1,3 +1,23 @@
 // Place all the styles related to the accounts controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+th.header {
+   cursor: pointer;
+}
+th.headerSortDown {
+   padding-left: 22px !important;
+   background-color: whiteSmoke;
+   background-size: 12px 12px;
+   background-position: 6px 10px;
+   background-repeat: no-repeat;
+   background-image: url("down_arrow.png");
+}
+th.headerSortUp {
+   padding-left: 22px !important;
+   background-color: whiteSmoke;
+   background-size: 12px 12px;
+   background-position: 6px 10px;
+   background-repeat: no-repeat;
+   background-image: url("up_arrow.png");
+}

@@ -102,6 +102,43 @@ class PhoneUsage < ActiveRecord::Base
   end
 
   private
+  
+  def self.import_phone_usage
+    import_sql = "INSERT INTO phone_usages (date_and_time,calling_from,calling_to,duration) SELECT cdr.calldate, cdr.src, cdr.dst,billsec FROM `asteriskcdrdb`.`cdr` as cdr;"
+    ActiveRecord::Base.connection.execute(import_sql)
+    return true
+  end
+
+  def self.analysis_phone_call_category
+    category_list = [
+		['^02[0|1|2|6|7|8|9][0-9]{5,9}$',3],
+		['^0086[0-9]+$',4],
+		['^0800[0-9]+$',5],
+		['^0508[0-9]+$',5],
+		['length(calling_to) = 7',1],
+		['^092[4-9][0-9]{5}$',1],
+		['^093[0-9]{6}$',1],
+		['^094[1|4][0-9]{5}$',1],
+		['^0947[3|5|6|8][0-9]{4}$',1],
+		['^0948[0-9]{5}$',1],
+		['^09[5|6|8][0-9]{6}$',1],
+		['^099[1|2|4|5|6|7][0-9]{5}$',1],
+		['^09980[0-9]{4}$',1],
+		['^0[3|4|6|7][0-9]{7}$',2],
+		]
+    category_list.each do |category|
+      ActiveRecord::Base.connection.execute("UPDATE phone_usages SET category_id = #{category[1]} WHERE calling_to RLIKE '#{category[0]}' and category_id not in (1,2,3,4,5,6,7);")
+    end
+    ActiveRecord::Base.connection.execute("UPDATE phone_usages SET category_id = 1 WHERE length(calling_to) = 7 and category_id not in (1,2,3,4,5,6,7);")
+    return true
+  end
+
+  def self.link_phone_number_to_user
+    sql = "UPDATE phone_usages as pu left join phone_numbers as u on pu.calling_from = u.phone_number SET pu.user_id = u.user_id where pu.calling_from = u.phone_number;
+"
+    ActiveRecord::Base.connection.execute(sql)
+    return true
+  end
 
   def self.phone_usage_percentage(phone_number,billing_period,category_id)
     return 0 if category_id.blank?

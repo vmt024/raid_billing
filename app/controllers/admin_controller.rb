@@ -33,6 +33,7 @@ class AdminController < ApplicationController
 
   def create_phone_number
     @phone_number = PhoneNumber.new(params[:phone_number])
+    @phone_number.area_code = '09' 
     if @phone_number.save
       flash[:notice] = "Phone Number Saved"
       redirect_to edit_account_admin_url(@phone_number.user_id)
@@ -64,6 +65,15 @@ class AdminController < ApplicationController
     @phone_number = PhoneNumber.find(params[:id])
     @phone_number.destroy
     redirect_to edit_account_admin_url(@phone_number.user_id)
+  end
+
+  def calculate_phone_call_cost_and_duration
+    @edit_account = User.find(params[:id])
+    PhoneUsage.analysis_phone_call_category
+    phone_usage = PhoneUsage.where(['user_id = ? and qty is null',@edit_account.id])
+    phone_usage.each{|pu| pu.set_cost}
+    flash[:notice] = "System has successfully recalculated the phone usage cost for user: #{@edit_account.email}"
+    redirect_to accounts_admin_index_url
   end
 
   def account_credit

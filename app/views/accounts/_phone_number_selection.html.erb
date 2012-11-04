@@ -1,7 +1,7 @@
 <p><h3>Phone Number:</h3></p>
 <%= form_tag set_phone_number_accounts_url do %>
   <%= select 'billing', 'phone_number',
-      @account.phone_numbers.collect{|p| ["#{p.area_code} #{p.phone_number}","#{p.phone_number}"] },
+      @account.phone_numbers.collect{|p| ["#{p.phone_number}","#{p.phone_number}"] },
       {:selected => session[:phone_number]},
       {:name=>'phone_number',
        :onchange => "this.form.submit()",
