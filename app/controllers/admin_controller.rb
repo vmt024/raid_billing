@@ -52,6 +52,7 @@ class AdminController < ApplicationController
     @phone_number = PhoneNumber.find(params[:id])
     @phone_number.user_id = params[:phone_number][:user_id]
     @phone_number.phone_number = params[:phone_number][:phone_number]
+    @phone_number.primary_phone_number = params[:phone_number][:primary_phone_number]
     if @phone_number.save
       flash[:notice] = "Phone Number Saved"
       redirect_to edit_account_admin_url(@phone_number.user_id)

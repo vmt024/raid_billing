@@ -20,8 +20,19 @@
     <%= label_tag :user_phone_number_1, 'Phone Number(s):', :class=>'control-label' %>
     <div class="controls">
       <% @edit_account.phone_numbers.each do |phone|%>
-        <%= phone.phone_number %> <%= link_to "Edit", edit_phone_number_admin_url(phone.id), :class=>'btn'%> 
-        <%= link_to "Delete", destroy_phone_number_admin_url(phone.id), :method=>:delete, :class=>'btn'%> 
+        <% if phone.primary_phone_number.present? %>
+          <%= phone.primary_phone_number %> Ext:<%= phone.phone_number %>
+        <% else %> 
+          <%= phone.phone_number %>
+        <% end %> 
+	
+        <div class="btn-group">
+          <button class="btn dropdown-toggle" data-toggle="dropdown"><i class="icon-wrench"></i> Options <span class="caret"></span></button>
+              <ul class="dropdown-menu">
+	        <li><%= link_to "Edit", edit_phone_number_admin_url(phone.id)%></li>
+                <li><%= link_to "Delete", destroy_phone_number_admin_url(phone.id), :method=>:delete%></li> 
+              </ul>
+         </div>
         <br/>
       <% end %>
       <%= link_to "Add Another Phone Number", add_phone_number_admin_url(:user_id => @edit_account.id), :class=>'btn'%>

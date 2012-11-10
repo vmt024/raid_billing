@@ -9,7 +9,11 @@
     <div class="controls"><%= select :phone_number, :user_id, user_list %></div>
   </div>
   <div class="control-group">
-    <%= label_tag :phone_number_phone_number, 'Phone Number:', :class=>'control-label' %>
+    <%= label_tag :phone_number_primary_phone_number, 'Displayed Phone Number:', :class=>'control-label' %>
+    <div class="controls"><%= text_field :phone_number, :primary_phone_number %></div>
+  </div>
+  <div class="control-group">
+    <%= label_tag :phone_number_phone_number, 'Actual Phone Number:', :class=>'control-label' %>
     <div class="controls"><%= text_field :phone_number, :phone_number %></div>
   </div>
   <div class="signin-btn">

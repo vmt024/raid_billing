@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120821090815) do
+ActiveRecord::Schema.define(:version => 20121110181332) do
 
   create_table "billing_credits", :force => true do |t|
     t.integer  "user_id",                                       :null => false
@@ -39,11 +39,12 @@ ActiveRecord::Schema.define(:version => 20120821090815) do
   end
 
   create_table "phone_numbers", :force => true do |t|
-    t.integer  "user_id",      :null => false
-    t.string   "phone_number", :null => false
-    t.string   "area_code",    :null => false
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
+    t.integer  "user_id",              :null => false
+    t.string   "phone_number",         :null => false
+    t.string   "area_code",            :null => false
+    t.datetime "created_at",           :null => false
+    t.datetime "updated_at",           :null => false
+    t.string   "primary_phone_number"
   end
 
   create_table "phone_usages", :force => true do |t|

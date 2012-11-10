@@ -27,7 +27,7 @@
         <% phone_call_cost = 0 %>
         <% @account.phone_numbers.each do |p|%>
           <tr>
-            <td><span class="muted">Phone Number &nbsp;&nbsp;&nbsp;&nbsp;<%= "#{p.phone_number}"%></span></td>
+            <td><span class="muted">Phone Number &nbsp;&nbsp;&nbsp;&nbsp;<%= display_phone_number_in_phone_usage(p.phone_number,p.primary_phone_number) %></span></td>
             <td class="right-aligned muted">
               <%= number_to_currency PhoneUsage.total_cost(p.phone_number,session[:billing_period])%>
             </td>
@@ -63,12 +63,14 @@
       </tbody>
     </table>
       <% @account.phone_numbers.each do |account| %>
-        <%= render :partial => "phone_usage_overview_for", :locals=>{:phone_number => account.phone_number}%>
+        <%= render :partial => "phone_usage_overview_for", 
+		   :locals=>{:phone_number => account.phone_number,
+			     :primary_phone_number => account.primary_phone_number }%>
       <% end %>
         <div class="page-breaker"></div>
       <% @account.phone_numbers.each do |account| %>
         <div class="page-header">
-          <h2>Phone Usage for <%= account.phone_number%> (<%= billing_period_info%>)</h2>
+          <h2>Phone Usage for <%=display_phone_number_in_phone_usage(account.phone_number,account.primary_phone_number) %> (<%= billing_period_info%>)</h2>
         </div>
         <table class="table table-striped table-condensed">
           <tbody>

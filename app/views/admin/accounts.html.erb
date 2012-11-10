@@ -19,7 +19,7 @@
         <tr>
           <td><%= account.email%></td>
           <td><%= [account.service.name, number_to_currency(account.service.price_include_gst)].join('  ') if account.service %></td>
-          <td><%= (account.phone_numbers.collect{|ph| ph.phone_number}.join('<br/>')).html_safe if account.phone_numbers%></td>
+          <td><%= (account.phone_numbers.collect{|ph| display_phone_number_in_phone_usage(ph.phone_number,ph.primary_phone_number)}.join('<br/>')).html_safe if account.phone_numbers%></td>
           <td><%= number_to_currency(account.base_fee) %></td>
           <td>
            <div class="btn-group">

@@ -21,7 +21,7 @@
         <% phone_call_cost = 0 %>
         <% @account.phone_numbers.each do |p|%>
           <tr>
-            <td><span class="muted">Phone Number &nbsp;&nbsp;&nbsp;&nbsp;<%= "#{p.phone_number}"%></span></td>
+            <td><span class="muted">Phone Number &nbsp;&nbsp;&nbsp;&nbsp;<%= display_phone_number_in_phone_usage(p.phone_number,p.primary_phone_number) %></span></td>
             <td class="right-aligned muted">
                 <%= number_to_currency PhoneUsage.total_cost(p.phone_number,session[:billing_period])%>
             </td>

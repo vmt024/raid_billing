@@ -7,7 +7,9 @@
 </div>
 <% @account.phone_numbers.each do |account| %>
   <%= render :partial => 'phone_usage_overview_for',
-             :locals => {:phone_number => account.phone_number}%>
+             :locals => {:phone_number => account.phone_number,
+			 :primary_phone_number => account.primary_phone_number}
+  %>
 <% end %>
 <!--
 <div class="page-header">
